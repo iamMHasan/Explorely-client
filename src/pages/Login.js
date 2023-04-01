@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import {toast} from "react-toastify"
 import {
     MDBCard,
     MDBCardBody,
@@ -9,19 +10,23 @@ import {
     MDBIcon,
     MDBSpinner,
 } from "mdb-react-ui-kit";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/auth/authSlice';
 
 const initialState = {
     email: "",
     password: "",
 };
 const Login = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [formValue, setFormValue] = useState(initialState)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(formValue)
-
+        dispatch(login({ formValue, navigate, toast }))
     }
     const onInputChange = (e) => {
         let { name, value } = e.target;
@@ -44,7 +49,7 @@ const Login = () => {
                     <MDBValidation onSubmit={handleSubmit} noValidate className="row g-3">
                         <div className="col-md-12">
                             <MDBInput
-                             onChange={onInputChange}
+                                onChange={onInputChange}
                                 label="Email"
                                 type="email"
                                 name="email"
