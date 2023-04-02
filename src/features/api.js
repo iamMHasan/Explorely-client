@@ -11,3 +11,7 @@ export const signup = (formData) => {
 export const signupwithgoogle = (result) => {
     return API.post("/users/googleSignin", result)
 }
+
+export const createTour = (tourData) =>{
+    return API.post("/tours", tourData)
+}

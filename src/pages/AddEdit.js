@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from "react-toastify"
+import {useNavigate} from "react-router-dom"
 import {
     MDBCard,
     MDBCardBody,
@@ -8,33 +10,46 @@ import {
 } from "mdb-react-ui-kit";
 import ChipInput from "material-ui-chip-input"
 import FileBase from "react-file-base64"
-
+import { useSelector, useDispatch } from "react-redux"
+import { createtour } from '../features/tour/tourSlice';
 const initialState = {
     title: "",
     description: "",
     tags: []
 }
 const AddEdit = () => {
+    const navigate = useNavigate()
     const [tourData, setTourData] = useState(initialState)
-    const {title, description,tags} = tourData
-    const handleClear = () =>{
-        setTourData({title : "", description : "", tags : []})
+    const { title, description, tags } = tourData
+    const dispatch = useDispatch()
+    const { error, } = useSelector(state => state.tour)
+    const { user } = useSelector(state => state.auth)
+    const handleClear = () => {
+        setTourData({ title: "", description: "", tags: [] })
     }
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(tourData)
+        if (title && description && tags) {
+            const updatedTourdata = {...tourData, name : user?.result?.name }
+            dispatch(createtour({updatedTourdata, navigate, toast}))
+            handleClear()
+        }
 
     }
-    const onInputChange = (e) =>{
-        const {name, value} = e.target 
-        setTourData({...tourData, [name]: value})
+    const onInputChange = (e) => {
+        const { name, value } = e.target
+        setTourData({ ...tourData, [name]: value })
     }
-    const handleAddTag = (tour) =>{
-        setTourData({...tourData, tags : [...tourData.tags, tour]})
+    const handleAddTag = (tour) => {
+        setTourData({ ...tourData, tags: [...tourData.tags, tour] })
     }
-    const handleDeleteTag = (deletetag) =>{
-        setTourData({...tourData, tags : tourData.tags.filter(tag => tag !== deletetag)})
+    const handleDeleteTag = (deletetag) => {
+        setTourData({ ...tourData, tags: tourData.tags.filter(tag => tag !== deletetag) })
     }
+
+    useEffect(() => {
+        error && toast.error(error.message)
+    }, [error])
     return (
         <div
             style={{
@@ -47,9 +62,9 @@ const AddEdit = () => {
             className="container"
         >
             <MDBCard alignment="center">
-                <h5>{ "Update Tour Add Tour"}</h5>
+                <h5>{"Update Tour Add Tour"}</h5>
                 <MDBCardBody>
-                <MDBValidation onSubmit={handleSubmit} className="row g-3" noValidate>
+                    <MDBValidation onSubmit={handleSubmit} className="row g-3" noValidate>
                         <div className="col-md-12">
                             <MDBInput
                                 label="Enter Title"
@@ -114,7 +129,7 @@ const AddEdit = () => {
                 </MDBCardBody>
             </MDBCard>
         </div>
-  )
+    )
 }
 
 export default AddEdit
