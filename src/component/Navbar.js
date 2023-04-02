@@ -11,12 +11,18 @@ import {
     MDBBtn,
     MDBCollapse,
 } from 'mdb-react-ui-kit';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { logOutUser } from '../features/auth/authSlice';
 
 const Navbar = () => {
     const [showBasic, setShowBasic] = useState(false);
-    const { user } = useSelector((state) => (state => state.auth));
+    const { user } = useSelector(state => state.auth) || {}
+    const dispatch = useDispatch()
+
+    const handleLogOut = () => {
+        dispatch(logOutUser())
+    }
     return (
         <MDBNavbar expand='lg' light bgColor='light'>
             <MDBContainer fluid>
@@ -35,7 +41,7 @@ const Navbar = () => {
                     <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
                         <MDBNavbarItem>
                             <MDBNavbarLink active aria-current='page' href='#'>
-                                Home
+                                <NavLink to="/">Home</NavLink>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
                         {
@@ -51,16 +57,24 @@ const Navbar = () => {
                             )
                         }
 
+                        {
+                            user?.result?._id ? (
+                                <>
+                                    <MDBNavbarItem>
+                                        <MDBNavbarLink onClick={handleLogOut}>Log out</MDBNavbarLink>
+                                    </MDBNavbarItem>
+                                </>
+                            ) : (
+                                <>
+                                    <MDBNavbarItem>
+                                        <MDBNavbarLink><NavLink to="/login">Login</NavLink></MDBNavbarLink>
+                                    </MDBNavbarItem>
+                                </>
+                            )
+                        }
                         <MDBNavbarItem>
-                            
-                                <MDBNavbarLink><Link to="/login">Login</Link></MDBNavbarLink>
-                            
+                            <MDBNavbarLink style={{fontWeight : "600"}}>Welcome {user?.result?.name}</MDBNavbarLink>
                         </MDBNavbarItem>
-                        <MDBNavbarItem>
-                            <MDBNavbarLink href='#'>Log out</MDBNavbarLink>
-                        </MDBNavbarItem>
-
-
                     </MDBNavbarNav>
 
                     <form className='d-flex input-group w-auto'>

@@ -143,7 +143,7 @@ const Register = () => {
           <br />
         </MDBCardBody>
         <MDBCardFooter>
-          <Link to="/register">
+          <Link to="/login">
             <p>Don't have an account ? Sign Up</p>
           </Link>
         </MDBCardFooter>

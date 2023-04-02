@@ -123,7 +123,7 @@ const Login = () => {
                     />
                 </MDBCardBody>
                 <MDBCardFooter>
-                    <Link to="/register">
+                    <Link to="/signup">
                         <p>Don't have an account ? Sign Up</p>
                     </Link>
                 </MDBCardFooter>
