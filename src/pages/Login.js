@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {toast} from "react-toastify"
 import {
     MDBCard,
@@ -11,7 +11,7 @@ import {
     MDBSpinner,
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 
 const initialState = {
@@ -21,7 +21,13 @@ const initialState = {
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const {error, loading} = useSelector(state => state.auth)
+    console.log(error)
     const [formValue, setFormValue] = useState(initialState)
+
+    useEffect(()=>{
+      error && toast.error(error.message)
+    },[error])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -72,12 +78,14 @@ const Login = () => {
                         <div className="col-12">
                             <MDBBtn style={{ width: "100%" }} className="mt-2">
 
-                                <MDBSpinner
-                                    size="sm"
-                                    role="status"
-                                    tag="span"
-                                    className="me-2"
-                                />
+                              {
+                                loading &&   <MDBSpinner
+                                size="sm"
+                                role="status"
+                                tag="span"
+                                className="me-2"
+                            />
+                              }
 
                                 Login
                             </MDBBtn>
