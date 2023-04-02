@@ -9,24 +9,34 @@ import {
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Main from './Layout/Main';
 
 function App() {
   const router = createBrowserRouter([
     {
-      path : "/",
-      element : <Home/>
+      path: "/",
+      element: <Main />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/login",
+          element: <Login />
+        },
+        {
+          path: "/signup",
+          element: <Register />
+        }
+      ]
     },
-    {
-      path : "/login",
-      element : <Login/>
-    },
-    {
-      path : "/signup",
-      element : <Register/>
-    }
+
   ])
   return (
-   <RouterProvider router={router}/>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
 

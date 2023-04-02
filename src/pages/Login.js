@@ -10,9 +10,10 @@ import {
     MDBIcon,
     MDBSpinner,
 } from "mdb-react-ui-kit";
+import {GoogleLogin} from "react-google-login"
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../features/auth/authSlice';
+import { googleSignIn, login } from '../features/auth/authSlice';
 
 const initialState = {
     email: "",
@@ -38,6 +39,18 @@ const Login = () => {
         let { name, value } = e.target;
         setFormValue({ ...formValue, [name]: value });
     };
+
+    const googleSuccess = (resp) => {
+        const email = resp?.profileObj?.email;
+        const name = resp?.profileObj?.name;
+        const token = resp?.tokenId;
+        const googleId = resp?.googleId;
+        const result = { email, name, token, googleId };
+        dispatch(googleSignIn({ result, navigate, toast }));
+      };
+      const googleFailure = (error) => {
+        toast.error(error);
+      };
     return (
         <div
             style={{
@@ -92,8 +105,8 @@ const Login = () => {
                         </div>
                     </MDBValidation>
                     <br />
-                    {/* <GoogleLogin
-                        clientId="Your Client Id"
+                    <GoogleLogin
+                        clientId="662822790832-klrr210uutsjj3qedp7ajcqt231s59i8.apps.googleusercontent.com"
                         render={(renderProps) => (
                             <MDBBtn
                                 style={{ width: "100%" }}
@@ -107,7 +120,7 @@ const Login = () => {
                         onSuccess={googleSuccess}
                         onFailure={googleFailure}
                         cookiePolicy="single_host_origin"
-                    /> */}
+                    />
                 </MDBCardBody>
                 <MDBCardFooter>
                     <Link to="/register">
