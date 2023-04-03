@@ -11,8 +11,8 @@ import Register from './pages/Register';
 import Main from './Layout/Main';
 import { useDispatch } from 'react-redux';
 import { setUser } from './features/auth/authSlice';
-import AddorEditTour from './pages/AddorEditTour';
 import AddEdit from './pages/AddEdit';
+import SingleTour from './pages/SingleTour';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("profile"))
@@ -44,6 +44,10 @@ function App() {
         {
           path : "/editTour/:id",
           element : <AddEdit/>
+        },
+        {
+          path : "/tour/:id",
+          element : <SingleTour/>
         },
       ]
     },

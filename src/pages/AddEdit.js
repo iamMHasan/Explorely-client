@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from "react-toastify"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import {
     MDBCard,
     MDBCardBody,
@@ -24,15 +24,28 @@ const AddEdit = () => {
     const dispatch = useDispatch()
     const { error, } = useSelector(state => state.tour)
     const { user } = useSelector(state => state.auth)
+    function readFileAsBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            const base64String = reader.result.split(",")[1];
+            resolve(base64String);
+          };
+          reader.onerror = (error) => reject(error);
+        });
+      }
+      
     const handleClear = () => {
         setTourData({ title: "", description: "", tags: [] })
     }
     const handleSubmit = (e) => {
+        console.log(title, description, tags)
         e.preventDefault()
         if (title && description && tags) {
-            const updatedTourdata = {...tourData, name : user?.result?.name }
-            dispatch(createtour({updatedTourdata, navigate, toast}))
-            handleClear()
+            const updatedTourdata = { ...tourData, name: user?.result?.name }
+            dispatch(createtour({ updatedTourdata, navigate, toast }))
+            // handleClear()
         }
 
     }
@@ -48,7 +61,7 @@ const AddEdit = () => {
     }
 
     useEffect(() => {
-        error && toast.error(error.message)
+        error && toast.error(error)
     }, [error])
     return (
         <div
@@ -104,13 +117,22 @@ const AddEdit = () => {
                             {/* {tagErrMsg && <div className="tagErrMsg">{tagErrMsg}</div>} */}
                         </div>
                         <div className="d-flex justify-content-start">
-                            <FileBase
+                            {/* <FileBase
                                 type="file"
                                 multiple={false}
                                 onDone={({ base64 }) =>
                                     setTourData({ ...tourData, imageFile: base64 })
                                 }
+                            /> */}
+                            <input
+                                type="file"
+                                onChange={async (event) => {
+                                    const file = event.target.files[0];
+                                    const base64String = await readFileAsBase64(file);
+                                    setTourData({ ...tourData, imageFile: base64String });
+                                }}
                             />
+
                         </div>
                         <div className="col-12">
                             <MDBBtn style={{ width: "100%" }}>

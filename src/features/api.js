@@ -1,24 +1,36 @@
 import axios from "axios";
 
-const API = axios.create({baseURL : "http://localhost:5000"})
+const API = axios.create({ baseURL: "http://localhost:5000" })
 
-API.interceptors.request.use((req)=>{
-    if(localStorage.getItem("profile")){
+API.interceptors.request.use((req) => {
+    if (localStorage.getItem("profile")) {
         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token}`
     }
     return req;
 })
 
-export const signin = (formData) => {
-    return API.post("/users/signin", formData)
+export const signin = async (formData) => {
+    const response = await API.post("/users/signin", formData)
+    return response;
 }
-export const signup = (formData) => {
-    return API.post("/users/signup", formData)
+export const signup = async (formData) => {
+    const response = await API.post("/users/signup", formData)
+    return response;
 }
-export const signupwithgoogle = (result) => {
-    return API.post("/users/googleSignin", result)
+export const signupwithgoogle = async (result) => {
+    const response = await API.post("/users/googleSignin", result)
+    return response;
 }
 
-export const createTour = (tourData) =>{
-    return API.post("/tours", tourData)
+export const createTour = async (tourData) => {
+    const response = await API.post("/tours", tourData)
+    return response
+}
+export const getToursData = async () => {
+    const response = await API.get("/tours")
+    return response
+}
+export const getTourData = async (id) => {
+    const response = await API.get(`/tours/${id}`)
+    return response
 }
