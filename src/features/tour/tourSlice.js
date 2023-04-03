@@ -10,6 +10,7 @@ export const createtour = createAsyncThunk("tour/createTour",
 
             return res.data;
         } catch (error) {
+            console.log(error)
             return rejectWithValue(error.response.data)
         }
     })
@@ -33,7 +34,7 @@ const tourSlice = createSlice({
             })
             .addCase(createtour.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.payload
+                state.error = action.error.message
             })
     }
 })
