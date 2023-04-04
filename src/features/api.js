@@ -34,3 +34,7 @@ export const getTourData = async (id) => {
     const response = await API.get(`/tours/${id}`)
     return response
 }
+export const getUserTour = async (id) => {
+    const response = await API.get(`tours/userTours/${id}`)
+    return response
+}

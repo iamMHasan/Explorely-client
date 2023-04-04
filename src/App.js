@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './features/auth/authSlice';
 import AddEdit from './pages/AddEdit';
 import SingleTour from './pages/SingleTour';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("profile"))
@@ -48,6 +49,10 @@ function App() {
         {
           path : "/tour/:id",
           element : <SingleTour/>
+        },
+        {
+          path : "/dashboard",
+          element : <Dashboard/>
         },
       ]
     },

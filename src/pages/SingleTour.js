@@ -16,6 +16,7 @@ import { getTour } from "../features/tour/tourSlice";
 const SingleTour = () => {
   const dispatch = useDispatch();
   const { tour, relatedTours } = useSelector((state) => ({ ...state.tour }));
+  const dataUri = "data:image/png;base64," + tour?.imageFile
   const { id } = useParams();
   const navigate = useNavigate();
   const tags = tour?.tags;
@@ -38,7 +39,7 @@ const SingleTour = () => {
           <MDBCardImage
             position="top"
             style={{ width: "100%", maxHeight: "600px" }}
-            src={tour.imageFile}
+            src={dataUri}
             alt={tour.title}
           />
           <MDBCardBody>

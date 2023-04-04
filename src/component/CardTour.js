@@ -30,12 +30,13 @@ const CardTour = ({ tour }) => {
         name,
         likes,
     } = tour || {}
+    const dataUri = "data:image/png;base64," + imageFile
     const { user } = useSelector(state => state.auth)
     return (
         <MDBCardGroup>
             <MDBCard className="h-100 mt-2 d-sm-flex" style={{ maxWidth: "20rem" }}>
                 <MDBCardImage
-                    src={imageFile}
+                    src={dataUri}
                     alt={title}
                     position="top"
                     style={{ maxWidth: "100%", height: "180px" }}
@@ -50,13 +51,6 @@ const CardTour = ({ tour }) => {
                         tag="a"
                         color="none"
                     >
-                        {/* {!user?.result ? (
-            <MDBTooltip title="Please login to like tour" tag="a">
-              <Likes />
-            </MDBTooltip>
-          ) : (
-            <Likes />
-          )} */}
                     </MDBBtn>
                 </span>
                 <MDBCardBody>

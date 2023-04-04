@@ -51,7 +51,7 @@ const Navbar = () => {
                                         <MDBNavbarLink href='#'><Link to='/addTour'>Add Tour</Link></MDBNavbarLink>
                                     </MDBNavbarItem>
                                     <MDBNavbarItem>
-                                        <MDBNavbarLink href='#'>Dashboard</MDBNavbarLink>
+                                        <MDBNavbarLink href='#'><Link to='/dashboard'>Dashboard</Link></MDBNavbarLink>
                                     </MDBNavbarItem>
                                 </>
                             )

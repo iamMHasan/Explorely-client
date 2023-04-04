@@ -12,7 +12,6 @@ function useQuery() {
 
 const Home = () => {
   const { tours, loading } = useSelector(state => state.tour) || {}
-  console.log(tours)
   const dispatch = useDispatch();
   const query = useQuery();
   const searchQuery = query.get("searchQuery");
@@ -23,9 +22,8 @@ const Home = () => {
   }, [dispatch])
 
   if (loading) {
-    return <h1>loading</h1>;
+    return <Spinner/>
   }
-  // if(!loading && tour)
   return (
     <div
       style={{

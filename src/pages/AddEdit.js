@@ -22,8 +22,9 @@ const AddEdit = () => {
     const [tourData, setTourData] = useState(initialState)
     const { title, description, tags } = tourData
     const dispatch = useDispatch()
-    const { error, } = useSelector(state => state.tour)
+    const { error,loading } = useSelector(state => state.tour)
     const { user } = useSelector(state => state.auth)
+
     function readFileAsBase64(file) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -40,7 +41,7 @@ const AddEdit = () => {
         setTourData({ title: "", description: "", tags: [] })
     }
     const handleSubmit = (e) => {
-        console.log(title, description, tags)
+        console.log(tourData)
         e.preventDefault()
         if (title && description && tags) {
             const updatedTourdata = { ...tourData, name: user?.result?.name }
@@ -129,6 +130,7 @@ const AddEdit = () => {
                                 onChange={async (event) => {
                                     const file = event.target.files[0];
                                     const base64String = await readFileAsBase64(file);
+                                    // console.log(base64String)
                                     setTourData({ ...tourData, imageFile: base64String });
                                 }}
                             />
@@ -136,7 +138,7 @@ const AddEdit = () => {
                         </div>
                         <div className="col-12">
                             <MDBBtn style={{ width: "100%" }}>
-                                "Submit"
+                                {loading ? "Submit.." : "Submit"}
                             </MDBBtn>
                             <MDBBtn
                                 style={{ width: "100%" }}

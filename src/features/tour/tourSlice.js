@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createTour, getTourData, getToursData } from "../api";
+import { createTour, getTourData, getToursData, getUserTour } from "../api";
 
 export const createtour = createAsyncThunk("tour/createTour",
     async ({ updatedTourdata, navigate, toast }) => {
@@ -33,6 +33,16 @@ export const getTour = createAsyncThunk("tour/gettour",
             return rejectWithValue(error.response.data)
         }
     })
+export const getuserTour = createAsyncThunk("tour/getUserTour",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await getUserTour(id)
+            return res.data;
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error.response.data)
+        }
+    })
 const tourSlice = createSlice({
     name: "tour",
     initialState: {
@@ -53,7 +63,7 @@ const tourSlice = createSlice({
             })
             .addCase(createtour.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.error.message
+                state.error = action.payload.message
             })
             .addCase(getTours.pending, (state, action) => {
                 state.loading = true
@@ -76,6 +86,17 @@ const tourSlice = createSlice({
             .addCase(getTour.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message
+            })
+            .addCase(getuserTour.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getuserTour.fulfilled, (state, action) => {
+                state.loading = false
+               state.userTours = action.payload
+            })
+            .addCase(getuserTour.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload.message
             })
     }
 })
