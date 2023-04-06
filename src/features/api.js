@@ -35,6 +35,23 @@ export const getTourData = async (id) => {
     return response
 }
 export const getUserTour = async (id) => {
-    const response = await API.get(`tours/userTours/${id}`)
+    const response = await API.get(`/tours/userTours/${id}`)
+    return response
+}
+export const deleteTour = async (id) => {
+    const response = await API.delete(`/tours/${id}`)
+    return response
+}
+export const updateTour = async (id, updatedData) => {
+    const response = await API.patch(`/tours/${id}`, updatedData)
+    return response
+}
+export const searchTour = async (searchQuery) => {
+    const response = await API.get(`/tours/search?searchQuery=${searchQuery}`)
+    return response
+}
+export const searchByTag = async (tag) => {
+    console.log(tag)
+    const response = await API.get(`/tours/tag/${tag}`)
     return response
 }

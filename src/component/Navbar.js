@@ -12,16 +12,30 @@ import {
     MDBCollapse,
 } from 'mdb-react-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logOutUser } from '../features/auth/authSlice';
+import { getTourBySearch } from '../features/tour/tourSlice';
 
 const Navbar = () => {
     const [showBasic, setShowBasic] = useState(false);
+    const [search, setSearch] = useState("")
     const { user } = useSelector(state => state.auth) || {}
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleLogOut = () => {
         dispatch(logOutUser())
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(search){
+            dispatch(getTourBySearch(search))
+            navigate(`/tours/search?searchQuery=${search}`)
+            setSearch("")
+        } else{
+            navigate("/")
+        }
+
     }
     return (
         <MDBNavbar expand='lg' light bgColor='light'>
@@ -73,12 +87,18 @@ const Navbar = () => {
                             )
                         }
                         <MDBNavbarItem>
-                            <MDBNavbarLink style={{fontWeight : "600"}}>Welcome {user?.result?.name}</MDBNavbarLink>
+                            <MDBNavbarLink style={{ fontWeight: "600" }}>Welcome {user?.result?.name}</MDBNavbarLink>
                         </MDBNavbarItem>
                     </MDBNavbarNav>
 
-                    <form className='d-flex input-group w-auto'>
-                        <input type='search' className='form-control' placeholder='Type query' aria-label='Search' />
+                    <form onSubmit={handleSubmit} className='d-flex input-group w-auto'>
+                        <input 
+                        onChange={e => setSearch(e.target.value)}
+                         type='text' 
+                         className='form-control' 
+                         value={search}
+                         placeholder='Search tours' aria-label='Search' />
+                         
                         <MDBBtn color='primary'>Search</MDBBtn>
                     </form>
                 </MDBCollapse>

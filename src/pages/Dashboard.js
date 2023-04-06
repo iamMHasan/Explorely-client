@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getuserTour } from '../features/tour/tourSlice';
+import { deleteATour, getuserTour } from '../features/tour/tourSlice';
 import Spinner from '../component/Spinner';
 
 const Dashboard = () => {
@@ -37,8 +37,11 @@ const Dashboard = () => {
         return str;
     };
 
-    const handleDelete = () => {
-
+    const handleDelete = (id) => {
+        if(id){
+            window.confirm("Are you sure to delete?")
+            dispatch(deleteATour(id))
+        }
     }
     let content;
     if (loading) content = <Spinner/>

@@ -14,6 +14,9 @@ import { setUser } from './features/auth/authSlice';
 import AddEdit from './pages/AddEdit';
 import SingleTour from './pages/SingleTour';
 import Dashboard from './pages/Dashboard';
+import PrivateRote from './component/PrivateRote';
+import NotFound from './pages/NotFound';
+import TagTours from './pages/TagTours';
 
 function App() {
   const user = JSON.parse(localStorage.getItem("profile"))
@@ -25,10 +28,19 @@ function App() {
     {
       path: "/",
       element: <Main />,
+      errorElement : <NotFound/>,
       children: [
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/tours/search",
+          element: <Home />,
+        },
+        {
+          path: "/tours/tag/:tag",
+          element: <TagTours />,
         },
         {
           path: "/login",
@@ -40,11 +52,11 @@ function App() {
         },
         {
           path : "/addTour",
-          element : <AddEdit/>
+          element : <PrivateRote><AddEdit/></PrivateRote>
         },
         {
           path : "/editTour/:id",
-          element : <AddEdit/>
+          element : <PrivateRote><AddEdit/></PrivateRote>
         },
         {
           path : "/tour/:id",
@@ -52,7 +64,7 @@ function App() {
         },
         {
           path : "/dashboard",
-          element : <Dashboard/>
+          element :<PrivateRote> <Dashboard/></PrivateRote>
         },
       ]
     },

@@ -3,7 +3,7 @@ import { MDBCol, MDBContainer, MDBRow, MDBTypography } from "mdb-react-ui-kit";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Spinner from "../component/Spinner";
-import { getTours } from "../features/tour/tourSlice";
+import { getTourBySearch, getTours } from "../features/tour/tourSlice";
 import CardTour from "../component/CardTour";
 
 function useQuery() {
@@ -18,8 +18,12 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(getTours())
-  }, [dispatch])
+    if (searchQuery) {
+      dispatch(getTourBySearch(searchQuery));
+    } else {
+      dispatch(getTours());
+    }
+  }, [location, dispatch, searchQuery])
 
   if (loading) {
     return <Spinner/>
@@ -40,7 +44,7 @@ const Home = () => {
           </MDBTypography>
         )}
 
-        {tours.length === 0 && (
+        {tours.length === 0 && searchQuery && (
           <MDBTypography className="text-center mb-0" tag="h2">
             We couldn't find any matches for "{searchQuery}"
           </MDBTypography>
