@@ -5,13 +5,14 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../component/Spinner";
 import { getTourBySearch, getTours } from "../features/tour/tourSlice";
 import CardTour from "../component/CardTour";
+import Pagination from "../component/Pagination";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const Home = () => {
-  const { tours, loading } = useSelector(state => state.tour) || {}
+  const { tours, loading , currentPage, numOfpages} = useSelector(state => state.tour) || {}
   const dispatch = useDispatch();
   const query = useQuery();
   const searchQuery = query.get("searchQuery");
@@ -21,9 +22,9 @@ const Home = () => {
     if (searchQuery) {
       dispatch(getTourBySearch(searchQuery));
     } else {
-      dispatch(getTours());
+      dispatch(getTours(currentPage));
     }
-  }, [location, dispatch, searchQuery])
+  }, [location, dispatch, searchQuery,currentPage])
 
   if (loading) {
     return <Spinner/>
@@ -60,14 +61,13 @@ const Home = () => {
           </MDBContainer>
         </MDBCol>
       </MDBRow>
-      {/* {tours.length > 0 && !searchQuery && (
+      {tours.length > 0 && !searchQuery && (
         <Pagination
-          setCurrentPage={setCurrentPage}
-          numberOfPages={numberOfPages}
+          numberOfPages={numOfpages}
           currentPage={currentPage}
           dispatch={dispatch}
         />
-      )} */}
+      )}
     </div>
   );
 };

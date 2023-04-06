@@ -26,8 +26,8 @@ export const createTour = async (tourData) => {
     const response = await API.post("/tours", tourData)
     return response
 }
-export const getToursData = async () => {
-    const response = await API.get("/tours")
+export const getToursData = async (page) => {
+    const response = await API.get(`/tours?page=${page}`)
     return response
 }
 export const getTourData = async (id) => {
@@ -51,7 +51,10 @@ export const searchTour = async (searchQuery) => {
     return response
 }
 export const searchByTag = async (tag) => {
-    console.log(tag)
     const response = await API.get(`/tours/tag/${tag}`)
+    return response
+}
+export const reletedTours = async (tags) => {
+    const response = await API.post(`/tours/reletedTours`, tags)
     return response
 }

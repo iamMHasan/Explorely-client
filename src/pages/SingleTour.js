@@ -11,20 +11,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { getTour } from "../features/tour/tourSlice";
+import { getReletedTours, getTour } from "../features/tour/tourSlice";
+import RelatedTours from "../component/RelatedTours";
 
 const SingleTour = () => {
   const dispatch = useDispatch();
-  const { tour, relatedTours } = useSelector((state) => ({ ...state.tour }));
+  const { tour, reletedTours } = useSelector(state => state.tour);
+  console.log(reletedTours)
   const dataUri = "data:image/png;base64," + tour?.imageFile
   const { id } = useParams();
   const navigate = useNavigate();
   const tags = tour?.tags;
 
   useEffect(() => {
-    // tags && dispatch(getRelatedTours(tags));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tags]);
+    tags && dispatch(getReletedTours(tags))
+  }, [tags, dispatch]);
 
   useEffect(() => {
     if (id) {
@@ -81,7 +82,7 @@ const SingleTour = () => {
               {tour.description}
             </MDBCardText>
           </MDBCardBody>
-          {/* <RelatedTours relatedTours={relatedTours} tourId={id} /> */}
+          <RelatedTours relatedTours={reletedTours} tourId={id} />
         </MDBCard>
         {/* <DisqusThread id={id} title={tour.title} path={`/tour/${id}`} /> */}
       </MDBContainer>

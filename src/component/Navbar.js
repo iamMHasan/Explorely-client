@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logOutUser } from '../features/auth/authSlice';
 import { getTourBySearch } from '../features/tour/tourSlice';
+import jwt_decode from "jwt-decode"
 
 const Navbar = () => {
     const [showBasic, setShowBasic] = useState(false);
@@ -22,6 +23,14 @@ const Navbar = () => {
     const { user } = useSelector(state => state.auth) || {}
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const token = user?.token 
+
+    if(token){
+        const decodedToken = jwt_decode(token)
+        if(decodedToken.exp * 1000 < new Date().getTime()){
+            dispatch(logOutUser())
+        }
+    }
 
     const handleLogOut = () => {
         dispatch(logOutUser())
