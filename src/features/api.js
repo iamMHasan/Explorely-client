@@ -58,3 +58,7 @@ export const reletedTours = async (tags) => {
     const response = await API.post(`/tours/reletedTours`, tags)
     return response
 }
+export const likeTour = async (id) => {
+    const response = await API.patch(`/tours/like/${id}`, id)
+    return response
+}

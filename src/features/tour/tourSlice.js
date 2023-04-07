@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createTour, deleteTour, getTourData, getToursData, getUserTour, reletedTours, searchByTag, searchTour, updateTour } from "../api";
+import { createTour, deleteTour, getTourData, getToursData, getUserTour, likeTour, reletedTours, searchByTag, searchTour, updateTour } from "../api";
 import { toast } from "react-toastify"
 
 export const createtour = createAsyncThunk("tour/createTour",
@@ -98,12 +98,22 @@ export const getReletedTours = createAsyncThunk("tour/getReletedTours",
             return rejectWithValue(error.response.data)
         }
     })
+export const likeATour = createAsyncThunk("tour/likeTour",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await likeTour(id)
+            return res.data;
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error.response.data)
+        }
+    })
 const tourSlice = createSlice({
     name: "tour",
     initialState: {
         tours: [],
         currentPage: 1,
-        numOfpages : null,
+        numOfpages: null,
         reletedTours: [],
         tour: {},
         userTours: [],
@@ -134,7 +144,7 @@ const tourSlice = createSlice({
             })
             .addCase(getTours.fulfilled, (state, action) => {
                 state.loading = false
-                state.tours = action.payload.data 
+                state.tours = action.payload.data
                 state.currentPage = action.payload.currentPage
                 state.numOfpages = action.payload.numOfPages
             })
@@ -223,8 +233,17 @@ const tourSlice = createSlice({
                 state.error = action.payload.message
                 console.log(action.payload.message)
             })
+            .addCase(likeATour.pending, (state, action) => {
+            })
+            .addCase(likeATour.fulfilled, (state, action) => {
+                state.loading = false
+                state.tours = state.tours.map(item => item._id === action.meta.arg ? action.payload : item)
+            })
+            .addCase(likeATour.rejected, (state, action) => {
+                state.error = action.payload.message
+            })
     }
 })
 
 export default tourSlice.reducer;
-export const {setCurrentPage} = tourSlice.actions
+export const { setCurrentPage } = tourSlice.actions
