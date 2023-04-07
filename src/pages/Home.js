@@ -6,6 +6,7 @@ import Spinner from "../component/Spinner";
 import { getTourBySearch, getTours } from "../features/tour/tourSlice";
 import CardTour from "../component/CardTour";
 import Pagination from "../component/Pagination";
+import Carousel from "../component/Carousel";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -34,6 +35,8 @@ const Home = () => {
     }}> <Spinner/></div>
   }
   return (
+   <>
+   <Carousel/>
     <div
       style={{
         margin: "auto",
@@ -73,6 +76,7 @@ const Home = () => {
         />
       )}
     </div>
+   </>
   );
 };
 

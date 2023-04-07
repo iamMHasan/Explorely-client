@@ -84,7 +84,7 @@ const CardTour = ({ tour }) => {
                 />
                 <div className="top-left">{name}</div>
                 <span className="text-start tag-card">
-                    {tags.map((tag) => (
+                    {tags?.map((tag) => (
                         <Link to={`/tours/tag/${tag}`}> #{tag}</Link>
                     ))}
                     <MDBBtn

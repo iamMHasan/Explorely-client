@@ -1,0 +1,12 @@
+@media (min-width: 768px) {
+    .carousel-item {
+      height: 40vh;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .carousel-item {
+      height: 20vh;
+    }
+  }
+  

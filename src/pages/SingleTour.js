@@ -14,10 +14,11 @@ import moment from "moment";
 import { getReletedTours, getTour } from "../features/tour/tourSlice";
 import RelatedTours from "../component/RelatedTours";
 import DisqusThread from "../component/DisqusThread";
+import Spinner from "../component/Spinner";
 
 const SingleTour = () => {
   const dispatch = useDispatch();
-  const { tour, reletedTours } = useSelector(state => state.tour);
+  const { tour, reletedTours,loading } = useSelector(state => state.tour);
   console.log(reletedTours)
   const dataUri = "data:image/png;base64," + tour?.imageFile
   const { id } = useParams();
@@ -34,6 +35,13 @@ const SingleTour = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+  if (loading) {
+    return  <div  style={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100vh",
+    }}> <Spinner/></div>
+  }
   return (
     <>
       <MDBContainer>
@@ -45,19 +53,6 @@ const SingleTour = () => {
             alt={tour.title}
           />
           <MDBCardBody>
-            <MDBBtn
-              tag="a"
-              color="red"
-              style={{ float: "left", color: "#000" }}
-              onClick={() => navigate("/")}
-            >
-              <MDBIcon
-                fas
-                size="lg"
-                icon="long-arrow-alt-left"
-                style={{ float: "left" }}
-              />
-            </MDBBtn>
             <h3>{tour.title}</h3>
             <span>
               <p className="text-start tourName">Created By: {tour.name}</p>

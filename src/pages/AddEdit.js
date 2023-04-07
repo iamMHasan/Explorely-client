@@ -6,7 +6,7 @@ import {
     MDBCardBody,
     MDBValidation,
     MDBBtn,
-    MDBInput,
+    MDBInput
 } from "mdb-react-ui-kit";
 import ChipInput from "material-ui-chip-input"
 import { useSelector, useDispatch } from "react-redux"
@@ -48,10 +48,10 @@ const AddEdit = () => {
         setTourData({ title: "", description: "", tags: [] })
     }
     const handleSubmit = (e) => {
-        if(tags.length === 0){
+        if (tags.length === 0) {
             settagErrMsg("please add tag too")
             return
-       }
+        }
         e.preventDefault()
         if (title && description && tags) {
             const updatedTourdata = { ...tourData, name: user?.result?.name }
@@ -110,17 +110,20 @@ const AddEdit = () => {
                             <MDBInput
                                 value={description}
                                 label="Enter Description"
-                                type="text"
+                                type="textarea"
                                 name="description"
                                 onChange={onInputChange}
                                 className="form-control"
+                                // style={{ height: "150px", verticalAlign: "top" }}
                                 required
                                 invalid
                                 textarea
-                                rows={4}
+                                rows="5"
                                 validation="Please provide description"
                             />
                         </div>
+
+
                         <div className="col-md-12">
                             <ChipInput
                                 required

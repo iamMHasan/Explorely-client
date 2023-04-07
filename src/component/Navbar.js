@@ -49,7 +49,7 @@ const Navbar = () => {
     return (
         <MDBNavbar expand='lg' light bgColor='light'>
             <MDBContainer fluid>
-                <MDBNavbarBrand href='#'>Explorely</MDBNavbarBrand>
+                <MDBNavbarBrand style={{fontWeight : "bold"}}>Explorely</MDBNavbarBrand>
 
                 <MDBNavbarToggler
                     aria-controls='navbarSupportedContent'

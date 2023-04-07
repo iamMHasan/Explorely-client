@@ -29,15 +29,19 @@ const TagTours = () => {
   }, [tag]);
 
   if (loading) {
-    return <Spinner />;
+    return <div style={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100vh",
+    }}> <Spinner /></div>
   }
 
   const excerpt = (str) => {
-    if(str?.length > 45){
-        str = str.substring(0, 45) + "..."
+    if (str?.length > 45) {
+      str = str.substring(0, 45) + "..."
     }
     return str;
-}
+  }
 
   return (
     <div
@@ -51,42 +55,45 @@ const TagTours = () => {
       <h3 className="text-center">Tours with tag: {tag}</h3>
       <hr style={{ maxWidth: "570px" }} />
       {tagTours &&
-        tagTours.map((item) => (
-          <MDBCardGroup key={item._id}>
-            <MDBCard style={{ maxWidth: "600px" }} className="mt-2">
-              <MDBRow className="g-0">
-                <MDBCol md="4">
-                  <MDBCardImage
-                    className="rounded"
-                    src={item.imageFile}
-                    alt={item.title}
-                    fluid
-                  />
-                </MDBCol>
-                <MDBCol md="8">
-                  <MDBCardBody>
-                    <MDBCardTitle className="text-start">
-                      {item.title}
-                    </MDBCardTitle>
-                    <MDBCardText className="text-start">
-                      {excerpt(item.description, 40)}
-                    </MDBCardText>
-                    <div style={{ float: "left", marginTop: "-10px" }}>
-                      <MDBBtn
-                        size="sm"
-                        rounded
-                        color="info"
-                        onClick={() => navigate(`/tour/${item._id}`)}
-                      >
-                        Read More
-                      </MDBBtn>
-                    </div>
-                  </MDBCardBody>
-                </MDBCol>
-              </MDBRow>
-            </MDBCard>
-          </MDBCardGroup>
-        ))}
+        tagTours.map((item) => {
+          const dataUri = "data:image/png;base64," + item?.imageFile
+          return (
+            <MDBCardGroup key={item._id}>
+              <MDBCard style={{ maxWidth: "600px" }} className="mt-2">
+                <MDBRow className="g-0">
+                  <MDBCol md="4">
+                    <MDBCardImage
+                      className="rounded"
+                      src={dataUri}
+                      alt={item.title}
+                      fluid
+                    />
+                  </MDBCol>
+                  <MDBCol md="8">
+                    <MDBCardBody>
+                      <MDBCardTitle className="text-start">
+                        {item.title}
+                      </MDBCardTitle>
+                      <MDBCardText className="text-start">
+                        {excerpt(item.description, 40)}
+                      </MDBCardText>
+                      <div style={{ float: "left", marginTop: "-10px" }}>
+                        <MDBBtn
+                          size="sm"
+                          rounded
+                          color="info"
+                          onClick={() => navigate(`/tour/${item._id}`)}
+                        >
+                          Read More
+                        </MDBBtn>
+                      </div>
+                    </MDBCardBody>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCard>
+            </MDBCardGroup>
+          )
+        })}
     </div>
   );
 };
