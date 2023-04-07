@@ -27,7 +27,11 @@ const Home = () => {
   }, [location, dispatch, searchQuery,currentPage])
 
   if (loading) {
-    return <Spinner/>
+    return  <div  style={{
+      display: "flex",
+      justifyContent: "center",
+      height: "100vh",
+    }}> <Spinner/></div>
   }
   return (
     <div

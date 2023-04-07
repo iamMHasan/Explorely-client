@@ -44,7 +44,13 @@ const Dashboard = () => {
         }
     }
     let content;
-    if (loading) content = <Spinner/>
+    if (loading) {
+        return  <div  style={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100vh",
+        }}> <Spinner/></div>
+      }
     if (!loading && userTours.length === 0) {
         content = <h3>No tour available with the user: {user?.result?.name}</h3>
     }

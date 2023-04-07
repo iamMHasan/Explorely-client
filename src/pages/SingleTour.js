@@ -13,6 +13,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { getReletedTours, getTour } from "../features/tour/tourSlice";
 import RelatedTours from "../component/RelatedTours";
+import DisqusThread from "../component/DisqusThread";
 
 const SingleTour = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const SingleTour = () => {
           <MDBCardBody>
             <MDBBtn
               tag="a"
-              color="none"
+              color="red"
               style={{ float: "left", color: "#000" }}
               onClick={() => navigate("/")}
             >
@@ -84,7 +85,7 @@ const SingleTour = () => {
           </MDBCardBody>
           <RelatedTours relatedTours={reletedTours} tourId={id} />
         </MDBCard>
-        {/* <DisqusThread id={id} title={tour.title} path={`/tour/${id}`} /> */}
+        <DisqusThread id={id} title={tour.title} path={`/tour/${id}`} />
       </MDBContainer>
     </>
   );

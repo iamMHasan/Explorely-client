@@ -95,9 +95,9 @@ const Navbar = () => {
                                 </>
                             )
                         }
-                        <MDBNavbarItem>
+                        {user?.result && <MDBNavbarItem>
                             <MDBNavbarLink style={{ fontWeight: "600" }}>Welcome {user?.result?.name}</MDBNavbarLink>
-                        </MDBNavbarItem>
+                        </MDBNavbarItem>}
                     </MDBNavbarNav>
 
                     <form onSubmit={handleSubmit} className='d-flex input-group w-auto'>
